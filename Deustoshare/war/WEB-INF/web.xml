@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>start</web-resource-name>
+            <url-pattern>/start/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+	<servlet>
+		<servlet-name>Start</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.Start</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Start</servlet-name>
+		<url-pattern>/start</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.Home</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>/start/home</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MyResources</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.MyResources</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyResources</servlet-name>
+		<url-pattern>/start/my_resources</url-pattern>
+		<url-pattern>/start/my_resources/new</url-pattern>		
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MyRequests</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.MyRequests</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyRequests</servlet-name>
+		<url-pattern>/start/my_requests</url-pattern>
+		<url-pattern>/start/request</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReceivedRequests</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.ReceivedRequests</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReceivedRequests</servlet-name>
+		<url-pattern>/start/received_requests</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SearchResources</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.SearchResources</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchResources</servlet-name>
+		<url-pattern>/start/search_resources</url-pattern>
+		<url-pattern>/start/resource</url-pattern>
+	</servlet-mapping>
+	
+	<!-- TEST SERVLET -->
+	<servlet>
+		<servlet-name>Test</servlet-name>
+		<servlet-class>com.appspot.deustosharing.servlets.test.Tests</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Test</servlet-name>s
+		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+	
+	
+	<welcome-file-list>
+		<welcome-file>pages/jsp/login.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
