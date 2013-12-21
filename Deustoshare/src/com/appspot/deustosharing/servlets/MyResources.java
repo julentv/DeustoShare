@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Manages the "My Resources part of the application" including the "New Resource page"
+ * @author Julen
+ *
+ */
 public class MyResources extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
