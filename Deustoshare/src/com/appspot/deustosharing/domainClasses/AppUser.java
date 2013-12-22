@@ -24,7 +24,10 @@ public class AppUser {
 
 	public AppUser(String email) {
 		this.email=email;
-		name="";
+		this.name="";
+		this.resourceList=new ArrayList<Resource>();
+		this.requestList= new ArrayList<Request>();
+
 	}
 
 	public boolean addResource(Resource resource){
@@ -65,7 +68,6 @@ public class AppUser {
 	public void setRequestList(ArrayList<Request> requestList) {
 		this.requestList = requestList;
 	}
-	
 	public String toString(){
 		String result="User name: "+this.name+", email: "+this.email;
 		return result;

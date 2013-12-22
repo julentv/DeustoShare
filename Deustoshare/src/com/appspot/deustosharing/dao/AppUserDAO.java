@@ -4,6 +4,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
+import com.appspot.deustosharing.domainClasses.Resource;
 
 public class AppUserDAO {
 	private PersistenceManagerFactory pmf;
@@ -29,6 +30,8 @@ public class AppUserDAO {
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{
 			user=pm.getObjectById(AppUser.class, email);
+			user.getRequestList();
+			user.getResourceList();
 		}catch(Exception e){
 			System.out.println("Can't get the User. "+e.getMessage());
 			
@@ -57,6 +60,20 @@ public class AppUserDAO {
 			pm.close();
 		}
 		return deleted;
+	}
+	public boolean addResourceToUser(String userEmail, Resource resource){
+		AppUser user=null;
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		boolean added=false;
+		try{
+			user=pm.getObjectById(AppUser.class, userEmail);
+			resource.setOwner(user);
+			pm.makePersistent(resource);
+			added=user.addResource(resource);
+		}finally{
+			pm.close();
+		}
+		return added;
 	}
 
 }

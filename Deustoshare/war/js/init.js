@@ -79,6 +79,23 @@
 			    }
 			});
 		}
+		function setContentForm(url, formId){
+			var loadingSection='<div class="loading-cont"><section id="loading" class="five"><div class="container"><div class="loading"><div class="bulat">'+
+			'<div id="dalbulat"><span>L</span> <span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span></div>'+
+			'<div class="luarbulat"></div></div></div></div></div></section></div>';
+			changeSelectedMenu(url);
+			var dataForm=$('#'+formId).serialize();
+			$("#main").html(loadingSection);
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: dataForm,
+			    context: document.body,
+			    success: function(data, status, settings){
+			    	$("#main").html(data);
+			    }
+			});
+		}
 		var currentSelectedMenuOption="home";
 		function changeSelectedMenu(name){
 			if(name!=currentSelectedMenuOption){
