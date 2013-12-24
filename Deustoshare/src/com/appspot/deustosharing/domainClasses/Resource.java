@@ -61,6 +61,9 @@ public class Resource {
 	public void setKey(Key key) {
         this.key = key;
     }
+	public Key getKey() {
+		return key;
+	}
 
 	public boolean insertRequest(Request request) {
 		if (this.requestList == null) {

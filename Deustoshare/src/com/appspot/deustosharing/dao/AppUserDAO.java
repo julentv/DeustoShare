@@ -1,11 +1,18 @@
 package com.appspot.deustosharing.dao;
 
+import java.util.ArrayList;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
 
+/**
+ * Class to manage the DDBB operations of the AppUser class
+ * @author Julen
+ *
+ */
 public class AppUserDAO {
 	private PersistenceManagerFactory pmf;
 	public AppUserDAO(){
@@ -31,7 +38,14 @@ public class AppUserDAO {
 		try{
 			user=pm.getObjectById(AppUser.class, email);
 			user.getRequestList();
-			user.getResourceList();
+			ArrayList<Resource>listRes=user.getResourceList();
+			pm.retrieveAll(listRes);
+			
+//			for(Resource res:listRes){
+//				String tit=res.getTitle();
+//				tit.length();
+//			}
+			
 		}catch(Exception e){
 			System.out.println("Can't get the User. "+e.getMessage());
 			
