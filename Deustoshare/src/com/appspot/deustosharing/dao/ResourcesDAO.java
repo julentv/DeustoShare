@@ -8,6 +8,7 @@ import javax.jdo.Query;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
+import com.appspot.deustosharing.domainClasses.Type;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -75,6 +76,35 @@ public class ResourcesDAO {
 			System.out.println("Key id: " + ((AppUser) o).getEmail());
 		}
 	    return ids;
+	}
+	public List<Resource> searchResources(String title, String typeString){
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		try{
+			Query query = pm.newQuery(Resource.class);
+			if(title!=null&&!title.equals("")){
+				query.setFilter("this.title.startsWith(\""+title+"\")");
+			}
+			if(typeString!=null&&!typeString.equals("")){
+				try{
+					Type type=Type.valueOf(typeString);
+					query.setFilter("type = "+type.toString());
+				}catch(Exception ex){
+					//the type string does not correspond to any type. Don't do anything with it.
+				}
+				
+			}
+			//do the select
+			List<Resource> result = (List<Resource>)query.execute();
+			return result;
+		}catch(Exception e){
+			System.out.println("Can't do the searching of resources."+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			pm.close();
+		}
+		
+		
+		return null;
 	}
 
 }

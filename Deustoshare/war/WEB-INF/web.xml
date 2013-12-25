@@ -69,6 +69,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SearchResources</servlet-name>
+		<url-pattern>/start/search_resources_page</url-pattern>
 		<url-pattern>/start/search_resources</url-pattern>
 		<url-pattern>/start/resource</url-pattern>
 	</servlet-mapping>

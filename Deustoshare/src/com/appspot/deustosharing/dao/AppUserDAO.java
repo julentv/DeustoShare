@@ -18,6 +18,11 @@ public class AppUserDAO {
 	public AppUserDAO(){
 		this.pmf= PMF.get();
 	}
+	/**
+	 * Inserts a new user into the DB
+	 * @param user to be inserted
+	 * @return whether the user has been inserted.
+	 */
 	public boolean insert(AppUser user){
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		boolean saved=false;
@@ -26,12 +31,19 @@ public class AppUserDAO {
 			saved=true;
 		}catch(Exception e){
 			System.out.println("Can't save the User. "+e.getMessage());
+			e.printStackTrace();
 		}
 		finally{
 			pm.close();
 		}
 		return saved;
 	}
+	/**
+	 * Obtains the user of the database with the email indicated
+	 * or null if there is not any user with that email.
+	 * @param email
+	 * @return
+	 */
 	public AppUser GetByPrimaryKey(String email){
 		AppUser user=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
@@ -41,19 +53,21 @@ public class AppUserDAO {
 			ArrayList<Resource>listRes=user.getResourceList();
 			pm.retrieveAll(listRes);
 			
-//			for(Resource res:listRes){
-//				String tit=res.getTitle();
-//				tit.length();
-//			}
-			
 		}catch(Exception e){
 			System.out.println("Can't get the User. "+e.getMessage());
+			e.printStackTrace();
 			
 		}finally{
 			pm.close();
 		}
 		return user;
 	}
+	
+	/**
+	 * Updates the user with the email of the user pass as a parameter with the
+	 * values in that user.
+	 * @param newUser the user containing the new values to be updated and the email.
+	 */
 	public void update (AppUser newUser){
 		AppUser oldUser=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
@@ -75,6 +89,12 @@ public class AppUserDAO {
 		}
 		return deleted;
 	}
+	/**
+	 * Adds a new resource to one user
+	 * @param userEmail email of the owner user of the resource to add.
+	 * @param resource
+	 * @return
+	 */
 	public boolean addResourceToUser(String userEmail, Resource resource){
 		AppUser user=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();

@@ -15,8 +15,6 @@ import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
