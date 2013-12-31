@@ -37,6 +37,7 @@ public class Home extends HttpServlet {
 		
 		//if the user is not at the DB create it.
 		if(currentUser==null){
+			System.out.println("Creating the user");
 			currentUser= new AppUser(email);
 			currentUser.setName(emailToNick(userService.getCurrentUser().getNickname()));
 			userDAO.insert(currentUser);

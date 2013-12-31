@@ -81,18 +81,29 @@ public class ResourcesDAO {
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{
 			Query query = pm.newQuery(Resource.class);
+			String filter="";
 			if(title!=null&&!title.equals("")){
-				query.setFilter("this.title.startsWith(\""+title+"\")");
+				filter="this.title.startsWith(\""+title+"\")";
+			}else{
+				filter=null;
 			}
 			if(typeString!=null&&!typeString.equals("")){
 				try{
 					Type type=Type.valueOf(typeString);
-					query.setFilter("type = "+type.toString());
+					if(filter==null){
+						filter="";
+					}else{
+						filter=filter+" && ";
+					}
+					filter=filter+"type == \""+type.toString()+"\"";
 				}catch(Exception ex){
 					//the type string does not correspond to any type. Don't do anything with it.
+					System.out.println("Incorrect Type");
+					ex.printStackTrace();
 				}
 				
 			}
+			query.setFilter(filter);
 			//do the select
 			List<Resource> result = (List<Resource>)query.execute();
 			return result;
