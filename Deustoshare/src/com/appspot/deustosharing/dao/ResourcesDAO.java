@@ -17,11 +17,13 @@ public class ResourcesDAO {
 	public ResourcesDAO(){
 		this.pmf= PMF.get();
 	}
-	public Resource getByPrimaryKey(Long keyLog){
+	public Resource getByPrimaryKey(Long keyLog, String userEmail){
 		Resource resource=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{
-			resource=pm.getObjectById(Resource.class, keyLog);
+			Key parentKey=KeyFactory.createKey(AppUser.class.getSimpleName(), userEmail);
+			Key key=KeyFactory.createKey(parentKey,Resource.class.getSimpleName(),keyLog);
+			resource=pm.getObjectById(Resource.class, key);
 			resource.getCurrentUser();
 		}catch(Exception e){
 			System.out.println("Can't load the Resource. "+e.getMessage());
@@ -64,7 +66,7 @@ public class ResourcesDAO {
 	    for(Object o:ids){
 	    	
 	    	((Resource)o).getOwner();
-	    	System.out.println("Key id: "+((Resource)o).getKey());
+	    	System.out.println("Key id: "+((Resource)o).getKey().getId());
 	    }
 	    q = pm.newQuery(AppUser.class);
 	    ids = (List) q.execute();
