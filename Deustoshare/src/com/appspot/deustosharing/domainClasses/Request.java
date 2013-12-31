@@ -19,16 +19,16 @@ public class Request {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
-	@Persistent
+	@Persistent (dependent = "true")
 	private AppUser requester;
 	@Persistent
-	private Resource resource;
+	private Key resource;
 	@Persistent
 	private Date startDate;
 	@Persistent
 	private Date endDate;
 	
-	public Request(AppUser requester, Resource resource, Date start, Date end) {
+	public Request(AppUser requester, Key resource, Date start, Date end) {
 		this.requester=requester;
 		this.resource=resource;
 		this.startDate=start;
@@ -47,12 +47,16 @@ public class Request {
 		this.requester = requester;
 	}
 
-	public Resource getResource() {
+	public Key getResource() {
 		return resource;
 	}
 
-	public void setResource(Resource resource) {
+	public void setResource(Key resource) {
 		this.resource = resource;
+	}
+
+	public Key getKey() {
+		return key;
 	}
 
 	public Date getStartDate() {

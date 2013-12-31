@@ -25,7 +25,7 @@ public class Resource {
 	private String title;
 	@Persistent
 	private String description;
-	@Persistent
+	@Persistent (dependent = "true")
 	private AppUser owner;
 	@Persistent
 	private AppUser currentUser;
@@ -33,21 +33,21 @@ public class Resource {
 	private Type type;
 	@Persistent
 	private boolean visible;
-	@Persistent(mappedBy = "resource")
-	private ArrayList<Request> requestList;
+	@Persistent
+	private ArrayList<Key> requestList;
 
 	public Resource(String title, String description, AppUser owner, Type type) {
 		this.title = title;
 		this.description = description;
 		this.owner = owner;
 		this.currentUser = null;
-		this.requestList = new ArrayList<Request>();
+		this.requestList = new ArrayList<Key>();
 		this.type = type;
 		this.visible=true;
 	}
 
 	public Resource(String title, String description, AppUser owner,
-			AppUser currentUser, ArrayList<Request> requestList, Type type, boolean visible) {
+			AppUser currentUser, ArrayList<Key> requestList, Type type, boolean visible) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -65,16 +65,16 @@ public class Resource {
 		return key;
 	}
 
-	public boolean insertRequest(Request request) {
+	public boolean insertRequest(Key request) {
 		if (this.requestList == null) {
-			requestList = new ArrayList<Request>();
+			requestList = new ArrayList<Key>();
 		}
 		return requestList.add(request);
 	}
 
-	public ArrayList<Request> getRequestList() {
+	public ArrayList<Key> getRequestList() {
 		if (this.requestList == null) {
-			this.requestList = new ArrayList<Request>();
+			this.requestList = new ArrayList<Key>();
 		}
 		return this.requestList;
 	}
@@ -98,8 +98,8 @@ public class Resource {
 	public void setType(Type type) {
 		this.type = type;
 	}
-
-	public void setRequestList(ArrayList<Request> requestList) {
+	
+	public void setRequestList(ArrayList<Key> requestList) {
 		this.requestList = requestList;
 	}
 
