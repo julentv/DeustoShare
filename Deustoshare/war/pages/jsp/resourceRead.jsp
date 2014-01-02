@@ -36,7 +36,7 @@
 			</div>
 			<div class="12u row-button">
 				<a
-					href="javascript:setContent('start/request?resourceid=<%=resource.getKey().getId()%>')"
+					href="javascript:setContent('start/request?resourceid=<%=resource.getKey().getId()%>&ownerEmail=<%=resource.getOwner().getEmail()%>')"
 					class="button submit">Make request</a>
 			</div>
 		</form>

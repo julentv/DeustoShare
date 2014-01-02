@@ -17,11 +17,10 @@
 						<span id="filter_text">Filter:</span>
 						<div class="6u">
 							<select class="select">
-								<option value="audi">All</option>
-								<option value="volvo">Acepted</option>
-								<option value="saab">Rejected</option>
-								<option value="mercedes">Pending</option>
-
+								<option value="">All</option>
+								<option value="acepted">Acepted</option>
+								<option value="rejected">Rejected</option>
+								<option value="pending">Pending</option>
 							</select>
 						</div>
 					</div>

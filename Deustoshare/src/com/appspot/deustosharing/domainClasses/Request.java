@@ -27,12 +27,15 @@ public class Request {
 	private Date startDate;
 	@Persistent
 	private Date endDate;
+	@Persistent
+	private RequestState state;
 	
 	public Request(AppUser requester, Key resource, Date start, Date end) {
 		this.requester=requester;
 		this.resource=resource;
 		this.startDate=start;
 		this.endDate=end;
+		this.state=RequestState.Pending;
 	}
 	
 	public void setKey(Key key) {
@@ -74,6 +77,15 @@ public class Request {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public RequestState getState() {
+		return state;
+	}
+
+	public void setState(RequestState state) {
+		this.state = state;
+	}
+	
 	
 
 }

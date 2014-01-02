@@ -55,7 +55,6 @@ public class SearchResources extends HttpServlet {
 		//load the page
 	    ServletContext sc = getServletContext();
 	    RequestDispatcher rd = sc.getRequestDispatcher(VIEW_URL);
-
 	    rd.forward(req, resp);
 	}
 	

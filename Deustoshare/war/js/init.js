@@ -268,16 +268,16 @@ function setContentForm(url, formId) {
 }
 var currentSelectedMenuOption = "home";
 function changeSelectedMenu(name) {
-	if (name != currentSelectedMenuOption) {
-		if (name == "start/home" || name == "start/my_resources"
-				|| name == "start/my_requests"
-				|| name == "start/received_requests"
-				|| name == "start/search_resources_page") {
-			name = name.replace("start/", "");
-			$("#" + currentSelectedMenuOption).removeClass("active");
-			$("#" + name).addClass("active");
-			currentSelectedMenuOption = name;
-		}
+	if(name.indexOf("start/request")!=-1){
+		name="start/my_requests";
+	}
+	if (name == "start/home" || name == "start/my_resources"
+			|| name == "start/my_requests" || name == "start/received_requests"
+			|| name == "start/search_resources_page") {
+		name = name.replace("start/", "");
+		$("#" + currentSelectedMenuOption).removeClass("active");
+		$("#" + name).addClass("active");
+		currentSelectedMenuOption = name;
 	}
 }
 function displayResourcesSearch(url, formId, displayDiv) {
@@ -286,14 +286,14 @@ function displayResourcesSearch(url, formId, displayDiv) {
 			+ '<div class="luarbulat"></div></div></div></div></div></section></div>';
 	changeSelectedMenu(url);
 	var dataForm = $('#' + formId).serialize();
-	$("#"+displayDiv).html(loadingSection);
+	$("#" + displayDiv).html(loadingSection);
 	$.ajax({
 		type : "POST",
 		url : url,
 		data : dataForm,
 		context : document.body,
 		success : function(data, status, settings) {
-			$("#"+displayDiv).html(data);
+			$("#" + displayDiv).html(data);
 		}
 	});
 }

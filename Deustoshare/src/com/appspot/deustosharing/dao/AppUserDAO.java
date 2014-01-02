@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
+import com.appspot.deustosharing.domainClasses.Request;
 import com.appspot.deustosharing.domainClasses.Resource;
 
 /**
@@ -49,9 +51,11 @@ public class AppUserDAO {
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{
 			user=pm.getObjectById(AppUser.class, email);
-			user.getRequestList();
+			ArrayList<Request>listReq=user.getRequestList();
+			pm.retrieveAll(listReq);
 			ArrayList<Resource>listRes=user.getResourceList();
 			pm.retrieveAll(listRes);
+			
 			
 		}catch(Exception e){
 			System.out.println("Can't get the User. "+e.getMessage());
@@ -99,12 +103,39 @@ public class AppUserDAO {
 		AppUser user=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		boolean added=false;
+		Transaction tx = pm.currentTransaction();
 		try{
+			tx.begin();
 			user=pm.getObjectById(AppUser.class, userEmail);
 			resource.setOwner(user);
 			pm.makePersistent(resource);
 			added=user.addResource(resource);
+			tx.commit();
 		}finally{
+			if(tx.isActive()){
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return added;
+	}
+	
+	public boolean addRequestToUser(String userEmail, Request request){
+		AppUser user=null;
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		boolean added=false;
+		Transaction tx = pm.currentTransaction();
+		try{
+			tx.begin();
+			user=pm.getObjectById(AppUser.class, userEmail);
+			request.setRequester(user);
+			pm.makePersistent(request);
+			added=user.addRequest(request);
+			tx.commit();
+		}finally{
+			if(tx.isActive()){
+				tx.rollback();
+			}
 			pm.close();
 		}
 		return added;

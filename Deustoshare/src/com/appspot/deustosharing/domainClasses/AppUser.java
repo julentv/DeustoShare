@@ -36,6 +36,12 @@ public class AppUser {
 		}
 		return this.resourceList.add(resource);
 	}
+	public boolean addRequest(Request request){
+		if(this.requestList==null){
+			this.requestList=new ArrayList<Request>();
+		}
+		return this.requestList.add(request);
+	}
 	
 	public String getName() {
 		return name;

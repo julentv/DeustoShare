@@ -52,6 +52,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>MyRequests</servlet-name>
 		<url-pattern>/start/my_requests</url-pattern>
 		<url-pattern>/start/request</url-pattern>
+		<url-pattern>/start/request/create</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

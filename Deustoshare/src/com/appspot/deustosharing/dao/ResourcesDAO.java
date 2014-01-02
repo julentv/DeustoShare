@@ -34,6 +34,21 @@ public class ResourcesDAO {
 		
 		return resource;		
 	}
+	public Resource getByPrimaryKey(Key key){
+		Resource resource=null;
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		try{
+			resource=pm.getObjectById(Resource.class, key);
+			resource.getCurrentUser();
+			resource.getOwner();
+		}catch(Exception e){
+			System.out.println("Can't load the Resource. "+e.getMessage());
+		}finally{
+			pm.close();
+		}
+		
+		return resource;		
+	}
 	public boolean updateByPrimaryKey(Long keyLong, String userEmail,Resource resourceChanges){
 		Resource resource=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
@@ -82,21 +97,15 @@ public class ResourcesDAO {
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{
 			Query query = pm.newQuery(Resource.class);
-			String filter="";
+			String filter="visible == true";
 			if(title!=null&&!title.equals("")){
-				filter="this.title.startsWith(\""+title+"\")";
-			}else{
-				filter=null;
+				filter=" && this.title.startsWith(\""+title+"\")";
 			}
 			if(typeString!=null&&!typeString.equals("")){
 				try{
 					Type type=Type.valueOf(typeString);
-					if(filter==null){
-						filter="";
-					}else{
-						filter=filter+" && ";
-					}
-					filter=filter+"type == \""+type.toString()+"\"";
+					
+					filter=filter+" && type == \""+type.toString()+"\"";
 				}catch(Exception ex){
 					//the type string does not correspond to any type. Don't do anything with it.
 					System.out.println("Incorrect Type");
