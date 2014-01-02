@@ -1,7 +1,6 @@
 package com.appspot.deustosharing.servlets;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,6 +28,7 @@ public class MyRequests extends HttpServlet {
 	private static final String PATH_NEW_REQUESTS_PAGE = "/start/request";
 	private static final String PATH_NEW_REQUESTS_CREATE = "/start/request/create";
 	private static final String PATH_NEW_REQUESTS_SHOW = "/start/request/show";
+	private static final String PATH_NEW_REQUESTS_DELETE = "/start/request/delete";
 	// jsp pages to load
 	private final String VIEW_URL = "/pages/jsp/myRequests.jsp";
 	private final String REQUEST_URL = "/pages/jsp/request.jsp";
@@ -44,6 +44,8 @@ public class MyRequests extends HttpServlet {
 			newRequestCreate(req, resp);
 		} else if (req.getServletPath().equals(PATH_NEW_REQUESTS_SHOW)) {
 			showRequest(req, resp);
+		}else if (req.getServletPath().equals(PATH_NEW_REQUESTS_DELETE)) {
+			deleteRequest(req, resp);
 		}
 
 	}
@@ -58,6 +60,8 @@ public class MyRequests extends HttpServlet {
 			newRequestCreate(req, resp);
 		} else if (req.getServletPath().equals(PATH_NEW_REQUESTS_SHOW)) {
 			showRequest(req, resp);
+		}else if (req.getServletPath().equals(PATH_NEW_REQUESTS_DELETE)) {
+			deleteRequest(req, resp);
 		}
 	}
 
@@ -149,8 +153,6 @@ public class MyRequests extends HttpServlet {
 
 	private void showRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		
 		// obtain the request
 		long keyLong = Long.parseLong(req.getParameter("requestid"));
 		String requesterEmail = req.getParameter("requesterEmail");
@@ -168,6 +170,33 @@ public class MyRequests extends HttpServlet {
 		RequestDispatcher rd = sc.getRequestDispatcher(REQUEST_READ_URL);
 		rd.forward(req, resp);
 
+	}
+	
+	private void deleteRequest(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		try {
+			long keyLong = Long.parseLong(req.getParameter("requestid"));
+			String requesterEmail = req.getParameter("requesterEmail");
+
+			// obtain the logged user
+			UserService userService = UserServiceFactory.getUserService();
+			String email = userService.getCurrentUser().getEmail();
+			
+			//validate the email
+			if(requesterEmail.equals(email)){
+				//delete the request
+				RequestsDAO rDAO= new RequestsDAO();
+				rDAO.delete(keyLong, requesterEmail);
+			}
+
+			// open the my Requests page
+			myRequests(req, resp);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			// open the my Requests page
+			myRequests(req, resp);
+		}
 	}
 
 }

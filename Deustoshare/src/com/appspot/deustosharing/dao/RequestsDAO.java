@@ -32,5 +32,23 @@ public class RequestsDAO {
 		}
 		return request;
 	}
+	
+	public void delete(Long keyLong, String requesterEmail){
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		Request request=null;
+		try{
+			Key parentKey=KeyFactory.createKey(AppUser.class.getSimpleName(), requesterEmail);
+			Key key=KeyFactory.createKey(parentKey,Request.class.getSimpleName(),keyLong);
+			request=pm.getObjectById(Request.class, key);
+			pm.deletePersistent(request);
+		}catch(Exception e){
+			System.out.println("Can't delete the Request. "+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			pm.close();
+		}
+		
+		
+	}
 
 }

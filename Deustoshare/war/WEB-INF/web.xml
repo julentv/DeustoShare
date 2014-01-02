@@ -54,6 +54,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/start/request</url-pattern>
 		<url-pattern>/start/request/create</url-pattern>
 		<url-pattern>/start/request/show</url-pattern>
+		<url-pattern>/start/request/delete</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

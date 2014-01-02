@@ -42,7 +42,7 @@
 			</div>
 			<div class="12u row-button">
 				<a
-					href="javascript:setContentForm('start/request/create?resourceid=<%=resource.getKey().getId()%>&ownerEmail=<%=resource.getOwner().getEmail()%>','newRequestForm')"
+					href="javascript:setContentForm('start/request/delete?requestid=<%=requestVar.getKey().getId()%>&requesterEmail=<%=requestVar.getRequester().getEmail()%>','newRequestForm')"
 					class="button submit">Delete</a>
 			</div>
 		</form>

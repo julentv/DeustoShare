@@ -19,7 +19,7 @@ public class Request {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
-	@Persistent (dependent = "true")
+	@Persistent
 	private AppUser requester;
 	@Persistent
 	private Key resource;
