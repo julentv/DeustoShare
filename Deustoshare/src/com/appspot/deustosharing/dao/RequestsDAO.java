@@ -2,28 +2,35 @@ package com.appspot.deustosharing.dao;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+
+import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Request;
+import com.appspot.deustosharing.domainClasses.Resource;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 public class RequestsDAO {
 	private PersistenceManagerFactory pmf;
 	public RequestsDAO(){
 		this.pmf= PMF.get();
 	}
-	/* NOT USED!!!!*/
-	public boolean insertRequest(Request request){
+	
+	public Request getByPrimaryKey(Long keyLong, String requesterEmail){
+		Request request=null;
 		PersistenceManager pm=this.pmf.getPersistenceManager();
-		boolean saved=false;
+		
 		try{
-			pm.makePersistent(request);
-			saved=true;
+			Key parentKey=KeyFactory.createKey(AppUser.class.getSimpleName(), requesterEmail);
+			Key key=KeyFactory.createKey(parentKey,Request.class.getSimpleName(),keyLong);
+			request=pm.getObjectById(Request.class, key);
+			request.getRequester();
 		}catch(Exception e){
-			System.out.println("Can't save the Request. "+e.getMessage());
+			System.out.println("Can't load the Request. "+e.getMessage());
 			e.printStackTrace();
-		}
-		finally{
+		}finally{
 			pm.close();
 		}
-		return saved;
+		return request;
 	}
 
 }

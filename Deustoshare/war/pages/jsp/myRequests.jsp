@@ -47,7 +47,7 @@
 				%>
 				<!-- Pares con un color e inpares con otro -->
 				<% if ((i % 2) == 0) { %>
-				<a href="#"><li class="li-colored">
+				<a href="javascript:setContent('start/request/show?requestid=<%= currentRequest.getKey().getId()%>&requesterEmail=<%= currentRequest.getKey().getParent().getName() %>')"><li class="li-colored">
 				<% }else{ %>
 				<a href="#"><li>
 				<% } %>
