@@ -64,8 +64,8 @@ public class SearchResources extends HttpServlet {
 		Resource resource = null;
 		try{
 			long keyLong= Long.parseLong(req.getParameter("resourceid"));
-			UserService userService = UserServiceFactory.getUserService();
-			resource=rdao.getByPrimaryKey(keyLong,userService.getCurrentUser().getEmail());
+			String email= req.getParameter("ownerEmail");
+			resource=rdao.getByPrimaryKey(keyLong,email);
 			
 			//load the page with the resource
 			req.setAttribute("resource", resource);

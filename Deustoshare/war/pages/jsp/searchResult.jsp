@@ -24,11 +24,11 @@
 			if ((i % 2) == 0) {
 		%>
 		<a
-			href="javascript:setContent('start/resource?resourceid=<%=myResources.get(i).getKey().getId()%>')"><li
+			href="javascript:setContent('start/resource?resourceid=<%=myResources.get(i).getKey().getId()%>&ownerEmail=<%=myResources.get(i).getKey().getParent()
+								.getName()%>')"><li
 			class="li-colored"><%=myResources.get(i).getTitle()%> <%
  	if (myResources.get(i).getCurrentUser() != null) {
- %>
-				<span class="resource-list no-available">(not available)</span></li></a>
+ %> <span class="resource-list no-available">(not available)</span></li></a>
 		<%
 			} else {
 		%>
@@ -41,11 +41,12 @@
 		<%
 			} else {
 		%>
-		<a href="javascript:setContent('start/resource')"><li><%=myResources.get(i).getTitle()%>
+		<a
+			href="javascript:setContent('start/resource?resourceid=<%=myResources.get(i).getKey().getId()%>&ownerEmail=<%=myResources.get(i).getKey().getParent()
+								.getName()%>')"><li><%=myResources.get(i).getTitle()%>
 				<%
 					if (myResources.get(i).getCurrentUser() != null) {
-				%> <span
-				class="resource-list no-available">(not available)</span></li></a>
+				%> <span class="resource-list no-available">(not available)</span></li></a>
 		<%
 			} else {
 		%>
