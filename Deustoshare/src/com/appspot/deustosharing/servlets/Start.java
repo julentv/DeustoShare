@@ -14,7 +14,7 @@ public class Start extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final String viewUrl="/pages/pannel.html";
+	private final String viewUrl="/pages/pannel.jsp";
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		

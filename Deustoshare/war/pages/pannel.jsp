@@ -4,6 +4,7 @@
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<%@page import="com.google.appengine.api.users.UserServiceFactory"%>
 <html>
 <head>
 <title>Deusto Sharing</title>
@@ -70,11 +71,7 @@
 
 			<!-- Social Icons -->
 			<ul class="icons">
-				<li><a href="#" class="fa fa-twitter solo"><span>Twitter</span></a></li>
-				<li><a href="#" class="fa fa-facebook solo"><span>Facebook</span></a></li>
-				<li><a href="#" class="fa fa-github solo"><span>Github</span></a></li>
-				<li><a href="#" class="fa fa-dribbble solo"><span>Dribbble</span></a></li>
-				<li><a href="#" class="fa fa-envelope solo"><span>Email</span></a></li>
+				<li><a href="<%= UserServiceFactory.getUserService().createLogoutURL("/") %>" class="fa fa-sign-out solo"><span>Sign out</span></a></li>
 			</ul>
 
 		</div>
