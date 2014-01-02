@@ -17,7 +17,7 @@
 				
 					<!-- Pares con un color e inpares con otro -->
 					<% if ((i % 2) == 0) { %>
-					<a href="javascript:setContent('start/resource')"><li class="li-colored"><%= myResources.get(i).getTitle() %>
+					<a href="javascript:setContent('start/resource?resourceid=<%= myResources.get(i).getKey().getId() %>')"><li class="li-colored"><%= myResources.get(i).getTitle() %>
 						<% if (myResources.get(i).getCurrentUser()!=null) { %>
 							<span class="resource-list no-available">(not available)</span></li></a>
 						<% } else { %>

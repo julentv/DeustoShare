@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 public class SearchResources extends HttpServlet {
 	/**
@@ -58,10 +60,24 @@ public class SearchResources extends HttpServlet {
 	}
 	
 	private void showResource(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		//load the page
-		ServletContext sc = getServletContext();
-	    RequestDispatcher rd = sc.getRequestDispatcher(SHOW_RESOURCE_URL);
-	    rd.forward(req, resp);
+		//obtain the resource
+		ResourcesDAO rdao = new ResourcesDAO();
+		Resource resource = null;
+		try{
+			long keyLong= Long.parseLong(req.getParameter("resourceid"));
+			UserService userService = UserServiceFactory.getUserService();
+			resource=rdao.getByPrimaryKey(keyLong,userService.getCurrentUser().getEmail());
+			
+			//load the page with the resource
+			req.setAttribute("resource", resource);
+			ServletContext sc = getServletContext();
+			RequestDispatcher rd = sc.getRequestDispatcher(SHOW_RESOURCE_URL);
+			rd.forward(req, resp);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			searchPage(req,resp);
+		}
 	}
 	
 	private void searchResources(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

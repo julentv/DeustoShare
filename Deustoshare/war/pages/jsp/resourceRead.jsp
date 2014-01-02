@@ -1,33 +1,44 @@
 <!-- My resources -->
+<%@page import="com.appspot.deustosharing.domainClasses.Resource"%>
 <section id="portfolio" class="two">
 	<div class="container">
-
+		<%
+			Resource resource = (Resource) request.getAttribute("resource");
+		%>
 		<header>
-			<h2>Name</h2>
+			<h2><%=resource.getTitle()%></h2>
 		</header>
 		<form method="post" action="#">
 			<div class="new_resource_form">
 				<ul>
-					<li><span class="first_field">Owner: <input disabled type="text" class="text" name="owner"
-						placeholder="Owner" /></span>
-						<span class="second_field">Type:<select disabled class="select">
-							<option value="volvo">Opcion 1</option>
-							<option value="saab">Opcion 2</option>
-							<option value="mercedes">Opcion 3</option>
-							<option value="audi">Opcion 4</option>
-					</select></span>
+					<li><span class="first_field">Owner: <input disabled
+							type="text" class="text" name="owner"
+							value="<%=resource.getOwner().getName()%>" placeholder="Owner" /></span>
+						<span class="second_field">Type:<input disabled type="text"
+							class="text" name="type"
+							value="<%=resource.getType().toString()%>" placeholder="Type" /></span>
 					</li>
-					<li>Description: <textarea disabled class="text" name="description"
-						placeholder="description"> </textarea></li>
+					<li>Description: <textarea disabled class="text"
+							name="description" placeholder="description"><%=resource.getDescription()%></textarea></li>
+
+					<%
+						if (resource.getCurrentUser() == null) {
+					%>
 					<li class="available">Is available</li>
+					<%
+						} else {
+					%>
 					<li class="no-available">Is NOT available</li>
+					<%
+						}
+					%>
 				</ul>
-
-
 			</div>
-				<div class="12u row-button">
-					<a href="javascript:setContent('start/request')" class="button submit">Make request</a>
-				</div>
+			<div class="12u row-button">
+				<a
+					href="javascript:setContent('start/request?resourceid=<%=resource.getKey().getId()%>')"
+					class="button submit">Make request</a>
+			</div>
 		</form>
 
 	</div>
