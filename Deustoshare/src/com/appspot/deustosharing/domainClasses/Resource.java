@@ -1,6 +1,8 @@
 package com.appspot.deustosharing.domainClasses;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -130,6 +132,21 @@ public class Resource {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
+	/**
+	 * Calculates whether the resource is been used or not.
+	 * @param requestList list of the requests made to the resource.
+	 * @return true if is available
+	 */
+	public boolean isAvailable(List<Request>requestList){
+		boolean available=true;
+		Date currentDate= new Date();
+		for(int i=0,ii=requestList.size();i<ii&&available;i++){
+			if(requestList.get(i).getStartDate().compareTo(currentDate)<0&&requestList.get(i).getEndDate().compareTo(currentDate)>0){
+				available=false;
+			}
+		}
+		
+		return available;
+	}
 
 }

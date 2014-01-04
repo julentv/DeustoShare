@@ -16,5 +16,4 @@
 	<button onclick="location.href='<%= userService.createLoginURL("/start") %>'">Login</button>
   </div>
   <br><br>
-  <a href="/test">TEST</a>
 </body>

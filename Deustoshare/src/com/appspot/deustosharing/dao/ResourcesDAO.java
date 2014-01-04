@@ -25,6 +25,7 @@ public class ResourcesDAO {
 			Key key=KeyFactory.createKey(parentKey,Resource.class.getSimpleName(),keyLog);
 			resource=pm.getObjectById(Resource.class, key);
 			resource.getCurrentUser();
+			resource.getRequestList();
 			resource.getOwner();
 		}catch(Exception e){
 			System.out.println("Can't load the Resource. "+e.getMessage());

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.appspot.deustosharing.dao.RequestsDAO;
 import com.appspot.deustosharing.dao.ResourcesDAO;
+import com.appspot.deustosharing.domainClasses.Request;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
 import com.google.appengine.api.users.UserService;
@@ -58,6 +60,13 @@ public class SearchResources extends HttpServlet {
 	    rd.forward(req, resp);
 	}
 	
+	/**
+	 * Loads one resource so it can be requested.
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void showResource(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		//obtain the resource
 		ResourcesDAO rdao = new ResourcesDAO();
@@ -66,9 +75,15 @@ public class SearchResources extends HttpServlet {
 			long keyLong= Long.parseLong(req.getParameter("resourceid"));
 			String email= req.getParameter("ownerEmail");
 			resource=rdao.getByPrimaryKey(keyLong,email);
+			//look if is available now.
+			boolean available=false;
+			RequestsDAO reqDAO= new RequestsDAO();
+			List<Request>resources=reqDAO.getByKeyResource(resource.getKey());
+			available=resource.isAvailable(resources);
 			
 			//load the page with the resource
 			req.setAttribute("resource", resource);
+			req.setAttribute("available", available);
 			ServletContext sc = getServletContext();
 			RequestDispatcher rd = sc.getRequestDispatcher(SHOW_RESOURCE_URL);
 			rd.forward(req, resp);
@@ -79,6 +94,13 @@ public class SearchResources extends HttpServlet {
 		}
 	}
 	
+	/**
+	 * Method that makes the search of the resources and displays them into a page.
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void searchResources(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 		//obtain the data
 		String name=(String) req.getParameter("name");

@@ -4,6 +4,7 @@
 	<div class="container">
 		<%
 			Resource resource = (Resource) request.getAttribute("resource");
+			Boolean isAvailable=(Boolean)request.getAttribute("available");
 		%>
 		<header>
 			<h2><%=resource.getTitle()%></h2>
@@ -22,7 +23,7 @@
 							name="description" placeholder="description"><%=resource.getDescription()%></textarea></li>
 
 					<%
-						if (resource.getCurrentUser() == null) {
+						if (isAvailable) {
 					%>
 					<li class="available">Is available</li>
 					<%
