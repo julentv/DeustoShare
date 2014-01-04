@@ -297,3 +297,7 @@ function displayResourcesSearch(url, formId, displayDiv) {
 		}
 	});
 }
+function changeSelectedMenuFilter(url,select){
+	url=url+"?filter="+select.options[select.selectedIndex].value;
+	setContent(url);
+}

@@ -78,4 +78,26 @@ public class AppUser {
 		String result="User name: "+this.name+", email: "+this.email;
 		return result;
 	}
+	public ArrayList<Request> getRequestsByFilter(String filter){
+		ArrayList<Request> requests= new ArrayList<Request>();
+		RequestState filterState=null;
+		try{
+			filterState=RequestState.valueOf(filter);
+		}catch(Exception e){
+			//no filter to add
+
+		}
+		if(filterState==null){
+			requests=this.requestList;
+		}else{
+			for(Request req:this.requestList){
+				if(req.getState().equals(filterState)){
+					requests.add(req);
+				}
+			}
+		}
+		
+		
+		return requests;
+	}
 }

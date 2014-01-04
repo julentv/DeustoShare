@@ -67,12 +67,18 @@ public class MyRequests extends HttpServlet {
 
 	private void myRequests(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// obtain the requests of the user
+		//obtain the filter data
+		String filter=req.getParameter("filter");
+		if(filter==null){
+			filter="";
+		}
+		//obtain the requests of the user
 		UserService userService = UserServiceFactory.getUserService();
 		String email = userService.getCurrentUser().getEmail();
 		AppUserDAO userDAO = new AppUserDAO();
 		AppUser currentUser = userDAO.GetByPrimaryKey(email);
-		req.setAttribute("requests", currentUser.getRequestList());
+		req.setAttribute("requests", currentUser.getRequestsByFilter(filter));
+		req.setAttribute("filter", filter);
 
 		// relative url for display jsp page
 		ServletContext sc = getServletContext();
