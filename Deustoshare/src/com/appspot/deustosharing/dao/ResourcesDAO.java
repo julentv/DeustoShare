@@ -41,7 +41,8 @@ public class ResourcesDAO {
 		try{
 			resource=pm.getObjectById(Resource.class, key);
 			resource.getCurrentUser();
-			resource.getOwner();
+			AppUser owner=resource.getOwner();
+			pm.retrieve(owner);
 		}catch(Exception e){
 			System.out.println("Can't load the Resource. "+e.getMessage());
 		}finally{

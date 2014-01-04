@@ -142,7 +142,10 @@ public class Resource {
 		Date currentDate= new Date();
 		for(int i=0,ii=requestList.size();i<ii&&available;i++){
 			if(requestList.get(i).getStartDate().compareTo(currentDate)<0&&requestList.get(i).getEndDate().compareTo(currentDate)>0){
-				available=false;
+				if(requestList.get(i).getState().equals(RequestState.Accepted)){
+					available=false;
+				}
+				
 			}
 		}
 		
