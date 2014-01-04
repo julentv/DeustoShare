@@ -1,3 +1,13 @@
+<%@page import="com.appspot.deustosharing.dao.ResourcesDAO"%>
+<%@page import="com.appspot.deustosharing.domainClasses.RequestState"%>
+<%@page import="com.appspot.deustosharing.domainClasses.Request"%>
+<%@page import="java.util.List"%>
+<%
+	List<Request> myRequests = (List<Request>) request
+			.getAttribute("requests");
+	ResourcesDAO rDAO = new ResourcesDAO();
+%>
+
 
 <!-- My resources -->
 <section id="portfolio" class="two">
@@ -8,36 +18,58 @@
 				<h2>Received Requests</h2>
 			</header>
 
+			<%
+				if (myRequests == null || myRequests.isEmpty()) {
+			%>
 			<p>You don't already have any request</p>
-			<!-- OR -->
-			<div id="filter">
-				<form method="post" action="#">
-					<div class="row half">
-
-						<span id="filter_text">Filter:</span>
-						<div class="6u">
-							<select class="select">
-								<option value="">All</option>
-								<option value="acepted">Acepted</option>
-								<option value="rejected">Rejected</option>
-								<option value="pending">Pending</option>
-							</select>
-						</div>
-					</div>
-				</form>
-			</div>
+			<%
+				} else {
+			%>
 			<div class="result-list">
 				<ul>
-					<a href="#"><li class="li-colored">Request a objeto uno <span
-							class="resource-list available">(Aceptada)</span></li></a>
-					<a href="#"><li>Request a objeto dos <span
-							class="resource-list no-available">(Rechazada)</span></li></a>
-					<a href="#"><li class="li-colored">Request a objeto tres <span
-							class="resource-list">(Pending)</span></li></a>
-					<a href="#"><li>Request a objeto cuatro <span
-							class="resource-list available">(Aceptada)</span></li></a>
+					<%
+						for (int i = 0, ii = myRequests.size(); i < ii; i++) {
+								Request currentRequest = myRequests.get(i);
+					%>
+					<!-- Pares con un color e inpares con otro -->
+					<%
+						if ((i % 2) == 0) {
+					%>
+					<a
+					
+						href="javascript:setContent('start/received_requests/show?requestid=<%=currentRequest.getKey().getId()%>&requesterEmail=<%=currentRequest.getKey().getParent().getName()%>')"><li
+						class="li-colored">
+							<%
+								} else {
+							%> <a href="javascript:setContent('start/received_requests/show?requestid=<%=currentRequest.getKey().getId()%>&requesterEmail=<%=currentRequest.getKey().getParent().getName()%>')"><li>
+									<%
+										}
+									%> <%
+ 	if (currentRequest.getState().equals(RequestState.Accepted)) {
+ %> <%=rDAO.getByPrimaryKey(
+								currentRequest.getResource()).getTitle()%> <span
+									class="resource-list available">(Accepted)</span> <%
+ 	} else if (currentRequest.getState().equals(
+ 					RequestState.Rejected)) {
+ %> <%=rDAO.getByPrimaryKey(
+								currentRequest.getResource()).getTitle()%><span
+									class="resource-list no-available">(Rejected)</span> <%
+ 	} else if (currentRequest.getState().equals(
+ 					RequestState.Pending)) {
+ %> <%=rDAO.getByPrimaryKey(
+								currentRequest.getResource()).getTitle()%><span
+									class="resource-list">(Pending)</span> <%
+ 	}
+ %>
+							</li></a> <%
+ 	}
+ %>
+					
 				</ul>
 			</div>
+			<%
+				}
+			%>
 		</div>
 
 	</div>

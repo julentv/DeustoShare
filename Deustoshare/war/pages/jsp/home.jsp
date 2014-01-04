@@ -9,7 +9,5 @@
 			</h2>
 		</header>
 
-		<p>En construccion</p>
-
 	</div>
 </section>

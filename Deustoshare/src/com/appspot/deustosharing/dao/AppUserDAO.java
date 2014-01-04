@@ -1,9 +1,11 @@
 package com.appspot.deustosharing.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
@@ -139,6 +141,42 @@ public class AppUserDAO {
 			pm.close();
 		}
 		return added;
+	}
+	
+	public List<Request>getUserReceivedRequests(String email){
+		List<Request> requests= new ArrayList<Request>();
+		AppUser user=null;
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		try{
+			user=pm.getObjectById(AppUser.class, email);
+			ArrayList<Resource>listRes=user.getResourceList();
+			pm.retrieveAll(listRes);
+			
+			//take all the requests of the resources
+			for(Resource resource:listRes){
+				String queryStr = "select from " + Request.class.getName() + 
+				          " where resource == :p1";
+				Query query = pm.newQuery(queryStr);
+				List<Request> requestsFromResource= new ArrayList<Request>();
+				try{
+					requestsFromResource=(List<Request>)query.execute(resource.getKey());
+					for(Request request:requestsFromResource){
+						requests.add(request);
+					}
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		}catch(Exception e){
+			System.out.println("Can't get the User. "+e.getMessage());
+			e.printStackTrace();
+			
+		}finally{
+			pm.close();
+		}
+		
+		
+		return requests;
 	}
 
 }

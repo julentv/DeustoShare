@@ -81,9 +81,20 @@ public class SearchResources extends HttpServlet {
 			List<Request>resources=reqDAO.getByKeyResource(resource.getKey());
 			available=resource.isAvailable(resources);
 			
+			//look if the owner is the same as the logged user
+			UserService userService = UserServiceFactory.getUserService();
+			String logedUserEmail = userService.getCurrentUser().getEmail();
+			boolean isMine=false;
+			if(email.equals(logedUserEmail)){
+				isMine=true;
+			}
+			
+			
+			
 			//load the page with the resource
 			req.setAttribute("resource", resource);
 			req.setAttribute("available", available);
+			req.setAttribute("isMine", isMine);
 			ServletContext sc = getServletContext();
 			RequestDispatcher rd = sc.getRequestDispatcher(SHOW_RESOURCE_URL);
 			rd.forward(req, resp);

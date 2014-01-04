@@ -5,6 +5,7 @@
 		<%
 			Resource resource = (Resource) request.getAttribute("resource");
 			Boolean isAvailable=(Boolean)request.getAttribute("available");
+			Boolean isMine = (Boolean) request.getAttribute("isMine");
 		%>
 		<header>
 			<h2><%=resource.getTitle()%></h2>
@@ -35,11 +36,17 @@
 					%>
 				</ul>
 			</div>
+			<%
+				if(!isMine){
+			%>
 			<div class="12u row-button">
 				<a
 					href="javascript:setContent('start/request?resourceid=<%=resource.getKey().getId()%>&ownerEmail=<%=resource.getOwner().getEmail()%>')"
 					class="button submit">Make request</a>
 			</div>
+			<%
+				}
+			%>
 		</form>
 
 	</div>

@@ -26,37 +26,13 @@
 		<a
 			href="javascript:setContent('start/resource?resourceid=<%=myResources.get(i).getKey().getId()%>&ownerEmail=<%=myResources.get(i).getKey().getParent()
 								.getName()%>')"><li
-			class="li-colored"><%=myResources.get(i).getTitle()%> <%
- 	if (myResources.get(i).getCurrentUser() != null) {
- %> <span class="resource-list no-available">(not available)</span></li></a>
-		<%
-			} else {
-		%>
-		<span class="resource-list available">(available)</span>
-		</li>
-		</a>
-		<%
-			}
-		%>
+			class="li-colored"><%=myResources.get(i).getTitle()%></li></a> 
 		<%
 			} else {
 		%>
 		<a
 			href="javascript:setContent('start/resource?resourceid=<%=myResources.get(i).getKey().getId()%>&ownerEmail=<%=myResources.get(i).getKey().getParent()
-								.getName()%>')"><li><%=myResources.get(i).getTitle()%>
-				<%
-					if (myResources.get(i).getCurrentUser() != null) {
-				%> <span class="resource-list no-available">(not available)</span></li></a>
-		<%
-			} else {
-		%>
-		<span class="resource-list available">(available)</span>
-		</li>
-		</a>
-		<%
-			}
-		%>
-
+								.getName()%>')"><li><%=myResources.get(i).getTitle()%></li></a>
 		<%
 			}
 				}

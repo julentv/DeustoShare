@@ -28,18 +28,10 @@
 					<!-- Pares con un color e inpares con otro -->
 					<% if ((i % 2) == 0) { %>
 					<a href="javascript:setContent('start/my_resources/edit?resourceid=<%= myResources.get(i).getKey().getId() %>')"><li class="li-colored"><%= myResources.get(i).getTitle() %>
-						<% if (myResources.get(i).getCurrentUser()!=null) { %>
-							<span class="resource-list no-available">(not available)</span></li></a>
-						<% } else { %>
-							<span class="resource-list available">(available)</span></li></a>
-						<% } %>	
+						</li></a>
 					<% } else { %>
 					<a href="javascript:setContent('start/my_resources/edit?resourceid=<%= myResources.get(i).getKey().getId() %>')"><li><%= myResources.get(i).getTitle() %> 
-						<% if (myResources.get(i).getCurrentUser()!=null) { %>
-							<span class="resource-list no-available">(not available)</span></li></a>
-						<% } else { %>
-							<span class="resource-list available">(available)</span></li></a>
-						<% } %>
+						</li></a>
 
 				<% } } %>
 			</ul>

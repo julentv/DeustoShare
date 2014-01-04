@@ -8,7 +8,7 @@
 			.getAttribute("requests");
 
 	ResourcesDAO rDAO = new ResourcesDAO();
-	String filter = (String)request.getAttribute("filter");
+	String filter = (String) request.getAttribute("filter");
 %>
 <section id="portfolio" class="two">
 	<div class="container">
@@ -21,12 +21,14 @@
 				<a href="javascript:setContent('start/search_resources_page')"
 					class="button">Create new</a>
 			</div>
-			
+
 			<%
 				if (myRequests == null || myRequests.isEmpty()) {
 			%>
 			<p>
-				You don't already have any <%=filter%> request.
+				You don't already have any
+				<%=filter%>
+				request.
 			</p>
 			<div id="filter">
 				<form method="post" action="#">
@@ -37,12 +39,21 @@
 							<select class="select" name="filter"
 								onchange="changeSelectedMenuFilter('start/my_requests',this)">
 								<option value="">All</option>
-								<% for(RequestState requestState:RequestState.values()){ %>
-								<% if(requestState.toString().equals(filter)){ %>
+								<%
+									for (RequestState requestState : RequestState.values()) {
+								%>
+								<%
+									if (requestState.toString().equals(filter)) {
+								%>
 								<option selected value="<%=requestState%>"><%=requestState%></option>
-								<% }else{ %>
+								<%
+									} else {
+								%>
 								<option value="<%=requestState%>"><%=requestState%></option>
-								<% }} %>
+								<%
+									}
+										}
+								%>
 							</select>
 						</div>
 					</div>
@@ -60,12 +71,21 @@
 							<select class="select" name="filter"
 								onchange="changeSelectedMenuFilter('start/my_requests',this)">
 								<option value="">All</option>
-								<% for(RequestState requestState:RequestState.values()){ %>
-								<% if(requestState.toString().equals(filter)){ %>
+								<%
+									for (RequestState requestState : RequestState.values()) {
+								%>
+								<%
+									if (requestState.toString().equals(filter)) {
+								%>
 								<option selected value="<%=requestState%>"><%=requestState%></option>
-								<% }else{ %>
+								<%
+									} else {
+								%>
 								<option value="<%=requestState%>"><%=requestState%></option>
-								<% }} %>
+								<%
+									}
+										}
+								%>
 							</select>
 						</div>
 					</div>
@@ -87,25 +107,22 @@
 						class="li-colored">
 							<%
 								} else {
-							%> <a href="#"><li>
+							%> <a href="javascript:setContent('start/request/show?requestid=<%=currentRequest.getKey().getId()%>&requesterEmail=<%=currentRequest.getKey().getParent().getName()%>')"><li>
 									<%
 										}
 									%> <%
  	if (currentRequest.getState().equals(RequestState.Accepted)) {
- %>
-									<%=rDAO.getByPrimaryKey(
-								currentRequest.getResource()).getTitle()%>
-									<span class="resource-list available">(Accepted)</span> <%
+ %> <%=rDAO.getByPrimaryKey(
+								currentRequest.getResource()).getTitle()%> <span
+									class="resource-list available">(Accepted)</span> <%
  	} else if (currentRequest.getState().equals(
  					RequestState.Rejected)) {
- %>
-									<%=rDAO.getByPrimaryKey(
+ %> <%=rDAO.getByPrimaryKey(
 								currentRequest.getResource()).getTitle()%><span
 									class="resource-list no-available">(Rejected)</span> <%
  	} else if (currentRequest.getState().equals(
  					RequestState.Pending)) {
- %>
-									<%=rDAO.getByPrimaryKey(
+ %> <%=rDAO.getByPrimaryKey(
 								currentRequest.getResource()).getTitle()%><span
 									class="resource-list">(Pending)</span> <%
  	}

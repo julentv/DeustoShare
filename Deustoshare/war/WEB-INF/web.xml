@@ -64,6 +64,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>ReceivedRequests</servlet-name>
 		<url-pattern>/start/received_requests</url-pattern>
+		<url-pattern>/start/received_requests/show</url-pattern>
+		<url-pattern>/start/received_requests/changeState</url-pattern>
+		
 	</servlet-mapping>
 	
 	<servlet>

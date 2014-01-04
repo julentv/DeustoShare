@@ -9,6 +9,7 @@ import javax.jdo.Query;
 
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Request;
+import com.appspot.deustosharing.domainClasses.RequestState;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -54,7 +55,6 @@ public class RequestsDAO {
 		
 		
 	}
-	
 	public List<Request> getByKeyResource(Key resourceKey){
 		List<Request> resourceList= new ArrayList<Request>();
 		PersistenceManager pm=this.pmf.getPersistenceManager();
@@ -69,10 +69,23 @@ public class RequestsDAO {
 		}finally{
 			pm.close();
 		}
-		
-		
-		
 		return resourceList;
+	}
+	public void updateRequestState(Long keyLong, String requesterEmail, RequestState newState){
+		Request request=null;
+		PersistenceManager pm=this.pmf.getPersistenceManager();
+		
+		try{
+			Key parentKey=KeyFactory.createKey(AppUser.class.getSimpleName(), requesterEmail);
+			Key key=KeyFactory.createKey(parentKey,Request.class.getSimpleName(),keyLong);
+			request=pm.getObjectById(Request.class, key);
+			request.setState(newState);
+		}catch(Exception e){
+			System.out.println("Can't load the Request. "+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			pm.close();
+		}
 	}
 
 }

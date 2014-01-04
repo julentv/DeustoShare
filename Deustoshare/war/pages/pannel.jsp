@@ -4,6 +4,9 @@
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<%@page import="com.appspot.deustosharing.domainClasses.AppUser"%>
+<%@page import="com.appspot.deustosharing.dao.AppUserDAO"%>
+<%@page import="com.google.appengine.api.users.UserService"%>
 <%@page import="com.google.appengine.api.users.UserServiceFactory"%>
 <html>
 <head>
@@ -31,7 +34,10 @@
 <!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
 </head>
 <body>
-
+<%UserService userService = UserServiceFactory.getUserService();
+String email = userService.getCurrentUser().getEmail();
+AppUserDAO userDAO = new AppUserDAO();
+AppUser currentUser = userDAO.GetByPrimaryKey(email); %>
 	<!-- Header -->
 	<div id="header" class="skel-panels-fixed">
 
@@ -41,8 +47,8 @@
 			<div id="logo">
 				<span class="image avatar48"><img src="/images/avatar.jpg"
 					alt="" /></span>
-				<h1 id="title">Name</h1>
-				<span class="byline">Surname1 Surname2</span>
+				<h1 id="title"><%= currentUser.getName() %></h1>
+				<span class="byline">Deusto Sharing</span>
 			</div>
 
 			<!-- Nav -->
