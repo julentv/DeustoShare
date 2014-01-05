@@ -23,6 +23,8 @@
 					<li>Description: <textarea class="text" name="description"></textarea></li>
 					<li>Visible: <input type="checkbox" name="visible"
 						value="true"></li>
+					<li>Send tweet: <input type="checkbox" name="tweet"
+						value="true"></li>
 				</ul>
 
 

@@ -143,6 +143,7 @@ public class AppUserDAO {
 		return added;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Request>getUserReceivedRequests(String email){
 		List<Request> requests= new ArrayList<Request>();
 		AppUser user=null;

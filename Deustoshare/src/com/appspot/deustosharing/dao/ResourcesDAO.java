@@ -77,6 +77,7 @@ public class ResourcesDAO {
 	 * ONLY USED FOR TEST
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getAllResurces(){
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		Query q = pm.newQuery(Resource.class);
@@ -95,6 +96,7 @@ public class ResourcesDAO {
 		}
 	    return ids;
 	}
+	@SuppressWarnings("unchecked")
 	public List<Resource> searchResources(String title, String typeString){
 		PersistenceManager pm=this.pmf.getPersistenceManager();
 		try{

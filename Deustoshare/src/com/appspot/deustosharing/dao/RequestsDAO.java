@@ -10,7 +10,6 @@ import javax.jdo.Query;
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Request;
 import com.appspot.deustosharing.domainClasses.RequestState;
-import com.appspot.deustosharing.domainClasses.Resource;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -55,6 +54,7 @@ public class RequestsDAO {
 		
 		
 	}
+	@SuppressWarnings("unchecked")
 	public List<Request> getByKeyResource(Key resourceKey){
 		List<Request> resourceList= new ArrayList<Request>();
 		PersistenceManager pm=this.pmf.getPersistenceManager();

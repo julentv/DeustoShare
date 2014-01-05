@@ -15,6 +15,7 @@ import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
+import com.appspot.deustosharing.twitter.TwitterConnection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -142,6 +143,12 @@ public class MyResources extends HttpServlet {
 			newResource.setVisible(true);
 		}else{
 			newResource.setVisible(false);
+		}
+		
+		
+		//send tweet if the option selected
+		if(req.getParameter("tweet")!=null){
+			TwitterConnection.sendTweet("I have Share a new Resource at 'http://deustosharing.appspot.com/'");
 		}
 		
 		//save the new resource
