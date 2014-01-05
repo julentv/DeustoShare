@@ -1,4 +1,4 @@
-package com.appspot.deustosharing.twitter;
+package com.appspot.deustosharing.otherApis;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

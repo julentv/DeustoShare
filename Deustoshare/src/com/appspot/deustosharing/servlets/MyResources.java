@@ -15,7 +15,7 @@ import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
-import com.appspot.deustosharing.twitter.TwitterConnection;
+import com.appspot.deustosharing.otherApis.TwitterConnection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
