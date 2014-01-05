@@ -23,7 +23,9 @@
 <script src="/js/skel.min.js"></script>
 <script src="/js/skel-panels.min.js"></script>
 <script src="/js/init.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>	
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="/_ah/channel/jsapi"></script>
+<script src="/js/channel.js"></script>		
 
 <noscript>
 	<link rel="stylesheet" href="/css/skel-noscript.css" />
@@ -34,10 +36,19 @@
 <!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
 </head>
 <body>
-<%UserService userService = UserServiceFactory.getUserService();
-String email = userService.getCurrentUser().getEmail();
-AppUserDAO userDAO = new AppUserDAO();
-AppUser currentUser = userDAO.GetByPrimaryKey(email); %>
+<!-- Commet code -->
+  <script>
+    channel = new goog.appengine.Channel('<%= request.getAttribute("token") %>');
+    socket = channel.open();
+    socket.onopen = onOpened;
+    socket.onmessage = onMessage;
+    socket.onerror = onError;
+    socket.onclose = onClose;
+  </script>
+
+
+
+<% AppUser currentUser = (AppUser)request.getAttribute("currentUser"); %>
 	<!-- Header -->
 	<div id="header" class="skel-panels-fixed">
 
@@ -63,7 +74,7 @@ AppUser currentUser = userDAO.GetByPrimaryKey(email); %>
 						id="my_requests" class=""><span class="fa fa-comment">My
 								requests</span></a></li>
 					<li><a href="javascript:setContent('start/received_requests')"
-						id="received_requests" class=""><span class="fa fa-envelope">Received
+						id="received_requests" class=""><span id="receivedRequestSpan" class="fa fa-envelope">Received
 								requests</span></a></li>
 					<li><a href="javascript:setContent('start/search_resources_page')"
 						id="search_resources_page" class=""><span class="fa fa-search">Search

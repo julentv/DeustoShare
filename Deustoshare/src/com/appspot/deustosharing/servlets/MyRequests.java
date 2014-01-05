@@ -17,6 +17,7 @@ import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Request;
 import com.appspot.deustosharing.domainClasses.Resource;
+import com.appspot.deustosharing.otherApis.Channel;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -104,7 +105,8 @@ public class MyRequests extends HttpServlet {
 			String resourceOwnerEmail = req.getParameter("ownerEmail");
 
 			resource = rdao.getByPrimaryKey(keyLong, resourceOwnerEmail);
-
+			
+			
 			// load the page with the resource
 			req.setAttribute("resource", resource);
 			ServletContext sc = getServletContext();
@@ -145,6 +147,11 @@ public class MyRequests extends HttpServlet {
 
 			// save the request
 			userDAO.addRequestToUser(email, newRequest);
+			
+			//send commet message to the owner
+			Channel channel= new Channel();
+			boolean sent=channel.sendUpdateToUser(resourceOwnerEmail, "New resource");
+			System.out.println("Update sent by channel? "+sent);
 
 			// open the my Requests page
 			myRequests(req, resp);

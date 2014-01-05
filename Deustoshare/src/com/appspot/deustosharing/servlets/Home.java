@@ -35,14 +35,6 @@ public class Home extends HttpServlet {
 		AppUserDAO userDAO= new AppUserDAO();
 		AppUser currentUser=userDAO.GetByPrimaryKey(email);
 		
-		//if the user is not at the DB create it.
-		if(currentUser==null){
-			System.out.println("Creating the user");
-			currentUser= new AppUser(email);
-			currentUser.setName(emailToNick(userService.getCurrentUser().getNickname()));
-			userDAO.insert(currentUser);
-		}
-		
 		//add the User to the atributes of the request so the jsp page can use it.
 		req.setAttribute("currentUser", currentUser);
 		//redirect to the jsp page
@@ -51,19 +43,6 @@ public class Home extends HttpServlet {
 	    rd.forward(req, resp);
 		
 	}
-	
-	/**
-	 * Obtain the nick name from a String with email format
-	 * @param email
-	 * @return the nick name
-	 */
-	private String emailToNick(String email){
-		if(email.contains("@")){
-			return email.split("@")[0];
-		}else{
-			return email;
-		}
-		
-	}
+
 
 }
