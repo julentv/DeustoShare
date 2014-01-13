@@ -87,9 +87,6 @@ public class SearchResources extends HttpServlet {
 			if(email.equals(logedUserEmail)){
 				isMine=true;
 			}
-			
-			
-			
 			//load the page with the resource
 			req.setAttribute("resource", resource);
 			req.setAttribute("available", available);

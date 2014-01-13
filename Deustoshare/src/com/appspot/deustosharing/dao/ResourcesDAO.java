@@ -103,7 +103,7 @@ public class ResourcesDAO {
 			Query query = pm.newQuery(Resource.class);
 			String filter="visible == true";
 			if(title!=null&&!title.equals("")){
-				filter=" && this.title.startsWith(\""+title+"\")";
+				filter=" this.title.startsWith(\""+title+"\")";
 			}
 			if(typeString!=null&&!typeString.equals("")){
 				try{
