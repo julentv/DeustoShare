@@ -1450,3 +1450,30 @@ border-radius: 3em;
 .buttonRed:active {
 	background-color: #CD0000;
 }
+#image-form{
+	float:left;
+	margin-bottom:0px;
+	padding-bottom:0px;
+	width:100%;
+}
+#image-form ul{
+	margin-bottom:0px;
+	float:left;
+}
+
+#photoimg{
+	font-weight:normal;
+	font-size:10pt;	
+}
+#resource-image-div{
+	float:left;
+	height:80px;
+	width:150px;
+	overflow:hidden;
+	font-size:10pt;	
+}
+#resource-image{
+	max-height:80px;
+	max-width:80px;
+	float:left;
+}

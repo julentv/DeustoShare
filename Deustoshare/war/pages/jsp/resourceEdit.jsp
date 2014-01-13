@@ -1,12 +1,39 @@
 <!-- My resources -->
 <%@page import="com.appspot.deustosharing.domainClasses.Resource"%>
 <%@page import="com.appspot.deustosharing.domainClasses.Type"%>
+
+<script type="text/javascript">
+//image upload function
+$(document).ready(function() 
+{ 
+	$(document).on('change','#photoimg', function(){ 
+		$("#preview").html('');
+		$("#preview").html('<img src="images/loader.gif" alt="Uploading...."/>');
+		$("#imageform").ajaxForm({target: '#preview'}).submit();
+	});
+}); 
+</script>
 <section id="portfolio" class="two">
 	<div class="container">
 
 		<header>
 			<h2>Edit Resource</h2>
 		</header>
+		<div id="image-form">
+			<form id="imageform" method="post" enctype="multipart/form-data"
+				action='start/my_resources/resourceImageEdit?resourceid=<%=((Resource) request.getAttribute("resource")).getKey()
+					.getId()%>'>
+				<ul>
+					<li>Image: <input type="file" name="photoimg" id="photoimg" /></li>
+				</ul>
+			</form>
+		</div>
+		<div id="resource-image-div">
+			<ul>
+				<li id="preview"><img id="resource-image"
+					src="images/userIcon.png" alt="resour"></li>
+			</ul>
+		</div>
 		<form id="new-resource-form" method="post" action="#">
 			<div class="new_resource_form">
 				<ul>
@@ -35,12 +62,12 @@
 					.getDescription()%></textarea></li>
 					<li>Visible: <%
 						if (((Resource) request.getAttribute("resource")).isVisible()) {
-					%>
-						<input type="checkbox" name="visible" value="true" checked></li>
+					%> <input type="checkbox" name="visible" value="true" checked></li>
 					<%
 						} else {
 					%>
-					<input type="checkbox" name="visible" value="true"></li>
+					<input type="checkbox" name="visible" value="true">
+					</li>
 					<%
 						}
 					%>
@@ -48,8 +75,6 @@
 				<input type="hidden" name="resourceid"
 					value="<%=((Resource) request.getAttribute("resource")).getKey()
 					.getId()%>">
-
-
 			</div>
 			<div class="12u row-button">
 				<a

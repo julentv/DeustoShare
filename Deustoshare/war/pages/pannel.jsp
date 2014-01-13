@@ -20,12 +20,14 @@
 <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="/js/jquery.form.js"></script>	
 <script src="/js/skel.min.js"></script>
 <script src="/js/skel-panels.min.js"></script>
 <script src="/js/init.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
-<script src="/js/channel.js"></script>		
+<script src="/js/channel.js"></script>
+	
 
 <noscript>
 	<link rel="stylesheet" href="/css/skel-noscript.css" />
