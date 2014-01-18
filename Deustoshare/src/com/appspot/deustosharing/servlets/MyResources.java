@@ -1,9 +1,6 @@
 package com.appspot.deustosharing.servlets;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
-import org.apache.jasper.util.Enumerator;
-
 import com.appspot.deustosharing.dao.AppUserDAO;
 import com.appspot.deustosharing.dao.ResourcesDAO;
 import com.appspot.deustosharing.domainClasses.AppUser;
@@ -30,7 +20,6 @@ import com.appspot.deustosharing.otherApis.TwitterConnection;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
