@@ -301,3 +301,43 @@ function changeSelectedMenuFilter(url,select){
 	url=url+"?filter="+select.options[select.selectedIndex].value;
 	setContent(url);
 }
+
+imageUploadFunction2=function(){ 
+	$("#preview").html('');
+	$("#preview").html('<img src="images/loader.gif" alt="Uploading...."/>');
+	
+	var options = { 
+			type: 'post',
+		    success:    function(data) { 
+		    	$("#preview").html(data);
+		    } 
+		};
+}
+
+
+/*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
+imageUploadFunction=function(){
+	 var data = new FormData();
+	 var resourceId=$("#resourceid").val();
+     data.append('resourceid',resourceId);
+     var filesList = document.getElementById('photoimg');
+     for (var i = 0; i < filesList.files.length; i ++) {
+         data.append('photoimg', filesList.files[i]);
+     }
+     var url=$("#imageform").attr( "action" )
+     $.ajax({
+         url:         url,
+         data:        data,
+         processData: false,
+         type:        'POST',
+         contentType: false,
+         success:     function (data) {
+        	 $("#preview").html(data);
+         },
+         error:       function (err) {
+        	 alert("Error uploading the image");
+
+         }
+     });
+}
+

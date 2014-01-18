@@ -7,6 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
 
 /**
@@ -29,6 +30,7 @@ public class Request {
 	private Date endDate;
 	@Persistent
 	private RequestState state;
+
 	
 	public Request(AppUser requester, Key resource, Date start, Date end) {
 		this.requester=requester;
@@ -36,6 +38,7 @@ public class Request {
 		this.startDate=start;
 		this.endDate=end;
 		this.state=RequestState.Pending;
+
 	}
 	
 	public void setKey(Key key) {

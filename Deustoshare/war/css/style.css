@@ -1477,3 +1477,7 @@ border-radius: 3em;
 	max-width:80px;
 	float:left;
 }
+#resource-image-show{
+	max-height:160px;
+	max-width:200px;
+}

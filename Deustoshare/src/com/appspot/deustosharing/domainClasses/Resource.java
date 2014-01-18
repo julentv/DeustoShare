@@ -9,6 +9,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
 
 /**
@@ -37,6 +38,8 @@ public class Resource {
 	private boolean visible;
 	@Persistent
 	private ArrayList<Key> requestList;
+	@Persistent
+	private BlobKey image;
 
 	public Resource(String title, String description, AppUser owner, Type type) {
 		this.title = title;
@@ -46,6 +49,7 @@ public class Resource {
 		this.requestList = new ArrayList<Key>();
 		this.type = type;
 		this.visible=true;
+		this.image=null;
 	}
 
 	public Resource(String title, String description, AppUser owner,
@@ -127,6 +131,15 @@ public class Resource {
 
 	public boolean isVisible() {
 		return visible;
+	}
+	
+
+	public BlobKey getImage() {
+		return image;
+	}
+
+	public void setImage(BlobKey image) {
+		this.image = image;
 	}
 
 	public void setVisible(boolean visible) {

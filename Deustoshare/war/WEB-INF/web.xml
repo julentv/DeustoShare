@@ -42,7 +42,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/start/my_resources/new/save</url-pattern>
 		<url-pattern>/start/my_resources/edit</url-pattern>
 		<url-pattern>/start/my_resources/edit/save</url-pattern>
-		<url-pattern>start/my_resources/resourceImageEdit</url-pattern>
+		<url-pattern>/start/my_resources/edit/resourceImageEdit</url-pattern>
+		<url-pattern>/start/my_resources/resourceImage</url-pattern>
 		
 	</servlet-mapping>
 	

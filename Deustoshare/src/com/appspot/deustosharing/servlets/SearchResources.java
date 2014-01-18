@@ -91,6 +91,12 @@ public class SearchResources extends HttpServlet {
 			req.setAttribute("resource", resource);
 			req.setAttribute("available", available);
 			req.setAttribute("isMine", isMine);
+			String url="/images/userIcon.png";
+			if(resource.getImage()!=null){
+				url="start/my_resources/resourceImage?blob-key="+resource.getImage().getKeyString();
+			}
+			
+			req.setAttribute("url", url);
 			ServletContext sc = getServletContext();
 			RequestDispatcher rd = sc.getRequestDispatcher(SHOW_RESOURCE_URL);
 			rd.forward(req, resp);

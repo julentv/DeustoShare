@@ -6,12 +6,16 @@
 			Resource resource = (Resource) request.getAttribute("resource");
 			Boolean isAvailable=(Boolean)request.getAttribute("available");
 			Boolean isMine = (Boolean) request.getAttribute("isMine");
+			String url = (String) request.getAttribute("url");
 		%>
 		<header>
 			<h2><%=resource.getTitle()%></h2>
 		</header>
 		<form method="post" action="#">
 			<div class="new_resource_form">
+			<div id="resource-image-div-show">
+				<img id='resource-image-show' src='<%= url %>' onclick="window.open('<%= url %>','_blank');" alt='resource-image'>
+			</div>
 				<ul>
 					<li><span class="first_field">Owner: <input disabled
 							type="text" class="text" name="owner"

@@ -1,6 +1,11 @@
 package com.appspot.deustosharing.servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -9,6 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
+import org.apache.jasper.util.Enumerator;
 
 import com.appspot.deustosharing.dao.AppUserDAO;
 import com.appspot.deustosharing.dao.ResourcesDAO;
@@ -16,6 +27,10 @@ import com.appspot.deustosharing.domainClasses.AppUser;
 import com.appspot.deustosharing.domainClasses.Resource;
 import com.appspot.deustosharing.domainClasses.Type;
 import com.appspot.deustosharing.otherApis.TwitterConnection;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -27,41 +42,60 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class MyResources extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
+	// paths to accept as input
+	private static final String PATH_MY_REQUESTS = "/start/my_resources";
+	private static final String PATH_NEW_RESOURCE_PAGE = "/start/my_resources/new";
+	private static final String PATH_NEW_RESOURCE_SAVE= "/start/my_resources/new/save";
+	private static final String PATH_REQUEST_EDIT= "/start/my_resources/edit";
+	private static final String PATH_REQUEST_EDIT_SAVE = "/start/my_resources/edit/save";
+	private static final String PATH_REQUEST_EDIT_IMAGE = "/start/my_resources/edit/resourceImageEdit";
+	private static final String PATH_REQUEST_IMAGE = "/start/my_resources/resourceImage";
+	
+	// jsp pages to load
 	private static final String RESOURCES_URL="/pages/jsp/myResources.jsp";
 	private static final String NEW_RESOURCE_URL="/pages/jsp/resource.jsp";
 	private static final String EDIT_RESOURCE_URL="/pages/jsp/resourceEdit.jsp";
 	private static final String START_PAGE_URL="/";
+	
+	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	
 	/**
 	 * These first two methods receive the request and act as a dispatcher to the rest.
 	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		if(req.getServletPath().equals("/start/my_resources")){
+		if(req.getServletPath().equals(PATH_MY_REQUESTS)){
 			myResourcesPage(req,resp);
-		    
-		}else if(req.getServletPath().equals("/start/my_resources/new")){
+		}else if(req.getServletPath().equals(PATH_NEW_RESOURCE_PAGE)){
 			newResourcePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/new/save")){
+		}else if(req.getServletPath().equals(PATH_NEW_RESOURCE_SAVE)){
 			newResourceSavePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/edit")){
+		}else if(req.getServletPath().equals(PATH_REQUEST_EDIT)){
 			editResourcePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/edit/save")){
+		}else if(req.getServletPath().equals(PATH_REQUEST_EDIT_SAVE)){
 			editResourceSavePage(req,resp);
+		}else if(req.getServletPath().equals(PATH_REQUEST_IMAGE)){
+			serveImage(req,resp);
 		}
+		
+		
 	}
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-		if(req.getServletPath().equals("/start/my_resources")){
+		if(req.getServletPath().equals(PATH_MY_REQUESTS)){
 			myResourcesPage(req,resp);
-		    
-		}else if(req.getServletPath().equals("/start/my_resources/new")){
+		}else if(req.getServletPath().equals(PATH_NEW_RESOURCE_PAGE)){
 			newResourcePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/new/save")){
+		}else if(req.getServletPath().equals(PATH_NEW_RESOURCE_SAVE)){
 			newResourceSavePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/edit")){
+		}else if(req.getServletPath().equals(PATH_REQUEST_EDIT)){
 			editResourcePage(req,resp);
-		}else if(req.getServletPath().equals("/start/my_resources/edit/save")){
+		}else if(req.getServletPath().equals(PATH_REQUEST_EDIT_SAVE)){
 			editResourceSavePage(req,resp);
+		}else if(req.getServletPath().equals(PATH_REQUEST_EDIT_IMAGE)){
+			resourceImageEdit(req,resp);
+		}else if(req.getServletPath().equals(PATH_REQUEST_IMAGE)){
+			serveImage(req,resp);
 		}
 	}
 	
@@ -136,15 +170,12 @@ public class MyResources extends HttpServlet {
 			}catch(Exception e){
 				System.out.println("Can't create the Type from the string. "+e.getMessage());
 			}
-			
-			
 		}
 		if(req.getParameter("visible")!=null){
 			newResource.setVisible(true);
 		}else{
 			newResource.setVisible(false);
 		}
-		
 		
 		//send tweet if the option selected
 		if(req.getParameter("tweet")!=null){
@@ -172,6 +203,12 @@ public class MyResources extends HttpServlet {
 			
 			//load the page with the resource
 			req.setAttribute("resource", resource);
+			String url="/images/userIcon.png";
+			if(resource.getImage()!=null){
+				url="start/my_resources/resourceImage?blob-key="+resource.getImage().getKeyString();
+			}
+			
+			req.setAttribute("url", url);
 			ServletContext sc = getServletContext();
 			RequestDispatcher rd = sc.getRequestDispatcher(EDIT_RESOURCE_URL);
 			rd.forward(req, resp);
@@ -224,5 +261,48 @@ public class MyResources extends HttpServlet {
 			myResourcesPage(req, resp);
 		}
 	}
+	
+	private void resourceImageEdit (HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException{
+		
+
+	    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(req);
+	    List<BlobKey> blobKeyList = blobs.get("photoimg");
+	    BlobKey key= blobKeyList.get(0);
+	    String url="start/my_resources/resourceImage?blob-key="+key.getKeyString();
+	    
+	    //obtain the resource
+	    String resourceId=(String) req.getParameter("resourceid");
+  		ResourcesDAO rdao= new ResourcesDAO();
+  		Resource resource=null;
+  		String response="";
+  		try{
+  			long keyLong= Long.parseLong(resourceId);
+  			UserService userService = UserServiceFactory.getUserService();
+  			resource=rdao.getByPrimaryKey(keyLong,userService.getCurrentUser().getEmail());
+  			//if the resource already has an image delete it from data store
+  			if(resource.getImage()!=null){
+  				blobstoreService.delete(resource.getImage());
+  			}
+  			//update the resource
+  			resource.setImage(key);
+  			rdao.updateByPrimaryKey(keyLong,userService.getCurrentUser().getEmail(), resource);
+  			response="<img id='resource-image' src='"+url+"' onclick=\"window.open('"+url+"','_blank');\" alt='resource-image'>";
+  		}catch(Exception e){
+  			response="<li id=\"preview\"><img id=\"resource-image\"src=\"images/userIcon.png\" alt=\"resour\"></li>";
+  		}
+	  	
+		//response="OK!";
+		resp.setContentType("text/html");
+		resp.getWriter().write(response);
+	    
+	}
+	
+	private void serveImage (HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException{
+		BlobKey blobKey = new BlobKey(req.getParameter("blob-key"));
+        blobstoreService.serve(blobKey, resp);
+	}
+	
 
 }

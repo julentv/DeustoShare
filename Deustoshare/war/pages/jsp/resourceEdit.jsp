@@ -1,17 +1,16 @@
 <!-- My resources -->
+<%@page
+	import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
+<%@page import="com.google.appengine.api.blobstore.BlobstoreService"%>
 <%@page import="com.appspot.deustosharing.domainClasses.Resource"%>
 <%@page import="com.appspot.deustosharing.domainClasses.Type"%>
-
+<% BlobstoreService blobstoreService= BlobstoreServiceFactory.getBlobstoreService(); %>
+<% String url = (String) request.getAttribute("url"); %>
 <script type="text/javascript">
-//image upload function
-$(document).ready(function() 
-{ 
-	$(document).on('change','#photoimg', function(){ 
-		$("#preview").html('');
-		$("#preview").html('<img src="images/loader.gif" alt="Uploading...."/>');
-		$("#imageform").ajaxForm({target: '#preview'}).submit();
+	//image upload function
+	$(document).ready(function() {
+		$(document).on('change', '#photoimg', imageUploadFunction);
 	});
-}); 
 </script>
 <section id="portfolio" class="two">
 	<div class="container">
@@ -21,17 +20,19 @@ $(document).ready(function()
 		</header>
 		<div id="image-form">
 			<form id="imageform" method="post" enctype="multipart/form-data"
-				action='start/my_resources/resourceImageEdit?resourceid=<%=((Resource) request.getAttribute("resource")).getKey()
-					.getId()%>'>
+				action="<%= blobstoreService.createUploadUrl("/start/my_resources/edit/resourceImageEdit") %>">
 				<ul>
 					<li>Image: <input type="file" name="photoimg" id="photoimg" /></li>
+					<li><input type="hidden" name="resourceid" id="resourceid"
+						value="<%=((Resource) request.getAttribute("resource")).getKey()
+					.getId()%>"></li>
 				</ul>
 			</form>
 		</div>
 		<div id="resource-image-div">
 			<ul>
-				<li id="preview"><img id="resource-image"
-					src="images/userIcon.png" alt="resour"></li>
+				<li id="preview"><img id='resource-image' src='<%= url %>' onclick="window.open('<%= url %>','_blank');" alt='resource-image'></li>
+				
 			</ul>
 		</div>
 		<form id="new-resource-form" method="post" action="#">
