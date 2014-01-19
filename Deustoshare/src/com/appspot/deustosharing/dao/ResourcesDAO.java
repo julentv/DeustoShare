@@ -65,7 +65,10 @@ public class ResourcesDAO {
 			resource.setTitle(resourceChanges.getTitle());
 			resource.setType(resourceChanges.getType());
 			resource.setVisible(resourceChanges.isVisible());
-			resource.setImage(resourceChanges.getImage());
+			if(resourceChanges.getImage()!=null){
+				resource.setImage(resourceChanges.getImage());
+			}
+			
 			updated=true;
 		}catch(Exception e){
 			System.out.println("Can't update the resource. "+e.getMessage());

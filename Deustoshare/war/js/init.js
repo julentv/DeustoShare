@@ -315,8 +315,9 @@ imageUploadFunction2=function(){
 }
 
 
-/*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
 imageUploadFunction=function(){
+	$("#preview").html('');
+	$("#preview").html('<img src="images/loader.gif" alt="Uploading...."/>');
 	 var data = new FormData();
 	 var resourceId=$("#resourceid").val();
      data.append('resourceid',resourceId);
